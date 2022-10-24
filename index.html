@@ -1,0 +1,144 @@
+<html>
+	<head>
+		<script>
+		
+			direcao = null;
+			
+			var alfa = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"];
+		
+		
+			function mudaSelect(){
+				
+				tipoCodificacao = document.getElementById('tipoCodificacao').value;
+				
+				console.log(tipoCodificacao);
+				
+				if(tipoCodificacao == 'caesar'){
+					document.getElementById('deslocamento').style.display = 'inline-block';
+				} else {
+					document.getElementById('deslocamento').style.display = 'none';
+				}
+			}
+			
+			
+			function mudaRadio(){
+						
+				var arrayRadio = document.getElementsByName('codeDecode');
+				
+				for(i=0; i < arrayRadio.length; i++){
+				    if(arrayRadio[i].checked){
+				        console.log(arrayRadio[i]);
+				        document.getElementById('btnExecutar').value = arrayRadio[i].value[0].toUpperCase() + arrayRadio[i].value.substr(1) + " Mensagem!";
+				        direcao = arrayRadio[i].value;
+				    }
+				} 	
+			}
+			
+			
+			
+			function codificaDecodifica(){
+				
+				tipoCodificacao = document.getElementById('tipoCodificacao').value;
+				textoEntrada = document.getElementById('entrada').value;
+				
+				console.log(tipoCodificacao);
+				console.log(direcao);
+				
+				console.log(textoEntrada);
+				
+				document.getElementById('resultado').value = "";
+				
+				
+				
+				
+				
+				if(tipoCodificacao == "caesar"){
+					
+					
+					for(i = 0; i < textoEntrada.length; i++){
+						console.log(textoEntrada[i]);
+						
+						indicePosicao = alfa.indexOf(textoEntrada[i]);
+						
+						console.log(indicePosicao);
+						
+						if(direcao == 'codificar'){
+							deslocamento = indicePosicao + parseInt(document.getElementById('deslocamento').value);
+							
+							if(deslocamento > 25){
+								deslocamento = deslocamento - 26;
+							}
+						}
+						
+						if(direcao == 'decodificar'){
+							deslocamento = indicePosicao - parseInt(document.getElementById('deslocamento').value);
+							
+							if(deslocamento < 0){
+								deslocamento = deslocamento + 26;
+							}
+						}
+						
+						
+						
+						document.getElementById('resultado').value = document.getElementById('resultado').value + alfa[deslocamento];
+					}
+				
+				}
+				
+				if(tipoCodificacao == "base64"){
+					
+					if(direcao == 'codificar'){
+						document.getElementById('resultado').value = btoa(document.getElementById('entrada').value);
+					}
+					
+					if(direcao == 'decodificar'){					
+						document.getElementById('resultado').value = atob(document.getElementById('entrada').value);
+					}
+				
+				}
+				
+				
+				
+			}
+			
+			
+		</script>
+	
+	</head>
+
+
+
+
+
+
+	<body>
+		<input type="text" name="entrada" id="entrada">
+		
+		<select name="tipoCodificacao" id="tipoCodificacao" onchange="mudaSelect()">
+			<option value="caesar">Cifra de Caesar</option>
+			<option value="base64">Base 64</option>
+		</select>
+		
+		<input type="number" name="deslocamento" id="deslocamento" placeholder="deslocamento" />
+		<BR><BR><BR>
+		<label>
+			<input type="radio" name="codeDecode" id="codeDecode" value="codificar" onchange="mudaRadio()" /> Codificar
+		</label><BR>
+		<label>
+			<input type="radio" name="codeDecode" id="codeDecode" value="decodificar" onchange="mudaRadio()" /> Decodificar
+		</label> 
+		<BR><BR><BR><BR>
+		
+		<input type="button" name="btnExecutar" id="btnExecutar" value="Codificar" onclick="codificaDecodifica()" />
+		
+		
+		<input type="text" name="resultado" id="resultado" />
+	</body>
+	
+	
+	
+	
+</html>
+
+
+
